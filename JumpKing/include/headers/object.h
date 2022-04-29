@@ -1,7 +1,6 @@
 /*
 this object class gonna be some potion that can buff our character
 */
-
 #pragma once
 
 #ifndef OBJECT_H
@@ -9,26 +8,29 @@ this object class gonna be some potion that can buff our character
 /*
 headers and stuffs
 */
-#include"header.h"
-#include"config.h"
-#include"image.h"
+//#include <iostream>
+//#include <string>     // NOT PREFER USING THIS LIBRARY BECAUSE ITS GONNA MAKE THE GAME SLOWER
+//#include <SDL.h>
+//#include <SDL_image.h>
+#include "image.h"
+#include "player.h"
 
-class Object {
+class Object{
 public:
 	//Constructor.
-	Object(void);
+	Object(int objW, int objH);
 	//Destructor.
 	~Object(void);
 
 	//Variables.
 	int objState;						//state of the object 
-	bool lethality;						//lethal or not
+	bool isTouched=false;						//lethal or not
 	int blockID;						//ID of the object
-	float xPos, yPos;					//Position by x and y
+	float xPos, yPos, objW, objH;					//Position by x and y
 	bool objSpawned;					//spawned or not
 	bool collisionWithCharacter;		//idk...
 	int existTime;						//time that the object exists
-
+	SDL_Rect objRect;
 	//Properties.
 	int moveSpeed;
 	int jumpState;
@@ -39,30 +41,30 @@ public:
 
 	//Virtual Functions that will be different with different object.
 	virtual void Update();
-	virtual void Draw(SDL_Renderer* renderer, Image img);
-	virtual void updateYPos(int var);
-	virtual void updateXPos();
+	virtual void Draw(SDL_Renderer* renderer, Image* img);
+	virtual void updateYPos(int varY);
+	virtual void updateXPos(int varX);
 	virtual void updateObj();
 	virtual void objPhysics();
 
-	virtual void collisionEffect();
+	/*virtual void collisionEffect();
 	virtual void objExterminate();
 	void state1();
 	void state2();
 
-	void Spawn();
+	void Spawn();*/
 
-	virtual void collideWithCharacter(bool flag);
-	virtual void points(int pts);
-	virtual void lockObj();
+	virtual bool collideWithCharacter(SDL_Rect A, SDL_Rect B);
+	/*virtual void points(int pts);
+	virtual void lockObj();*/
 
 
 	//Getters and Setters.
 	int getBlockID();
 	void setBlockID(int blockID);
 	int getMinionState();
-	virtual void setObjState(int objState);
-	virtual bool buff();
+	/*virtual void setObjState(int objState);
+	virtual bool buff();*/
 
 	int getXPos();
 	int getYPos();

@@ -3,8 +3,11 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include<bits/stdc++.h>
-#include"header.h"
+#include <iostream>
+#include <string>     // NOT PREFER USING THIS LIBRARY BECAUSE ITS GONNA MAKE THE GAME SLOWER
+#include <SDL.h>
+#include <SDL_image.h>
+
 using namespace std;
 
 
@@ -25,7 +28,7 @@ public:
 	void Draw(SDL_Renderer* renderer, int x, int y, bool rotate);		//another draw func but it can rotate by the boolean var
 	void PpenDraw(SDL_Renderer* renderer, int x, int y);				//some type of pen that can draw on other surfaces, it's useful, use to turn, flip object, kinda cool
 	void Draw(SDL_Renderer* renderer, SDL_Rect frame, SDL_Rect crop);	//Draw image by cropping SDL_Rect crop from renderer to SDL_Rect frame.
-
+	void Render(SDL_Renderer* des, const SDL_Rect* clip);
 	//Getters and Setters.
 	SDL_Texture* getImg();												//return the img pointers of SDL_Texture type
 	SDL_Rect getRect();													//return the rectangle we are rendering to

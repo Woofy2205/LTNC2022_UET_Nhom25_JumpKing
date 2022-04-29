@@ -8,7 +8,7 @@ Image::Image(string path, SDL_Renderer* renderer) {
 }
 
 Image::~Image(void) {
-	SDL_DestroyTexture(img);								//SDL func to delete the pointer ò SDL_Texture
+	SDL_DestroyTexture(img);								//SDL func to delete the pointer ï¿½ SDL_Texture
 }
 
 //Functions.
@@ -38,15 +38,17 @@ void Image::PpenDraw(SDL_Renderer* renderer, int _x, int _y) {
 }
 
 void Image::Draw(SDL_Renderer* renderer, SDL_Rect frame, SDL_Rect crop) {
-	SDL_RenderCopy(renderer, img, &crop, &frame);
+	SDL_RenderCopy(renderer, img, &frame, &crop);
 }
 
-/*
-* Getters and Setters.
-*/
+void Image::Render(SDL_Renderer* des, const SDL_Rect* clip) {
+	SDL_Rect renderquad = { imgRect.x, imgRect.y, imgRect.w, imgRect.h }; //vi tri va kich thuoc cua anh
+	SDL_RenderCopy(des, img, clip, &renderquad);
+}
+
 
 void Image::setImg(string path, SDL_Renderer* renderer) {
-	path = "files/images/" + path + ".bmp";
+	//path = "files/images/" + path + ".bmp";
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());										//IMG_Load is just a function to load the image to a surface
 	SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 255, 0, 255));
 
