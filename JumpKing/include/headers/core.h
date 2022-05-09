@@ -3,13 +3,13 @@
 #ifndef CORE_H
 #define CORE_H
 
-#include "map.h"
+#include "dungeon.h"
 
 class mainCore {
 private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	SDL_Event* e;
+	SDL_Event* event;
 
 	// Frames.
 	long frameTime;
@@ -30,7 +30,7 @@ private:
 
 	bool firstDir;				//Previous direction of moving, maybe remove after overall reviewing.
 
-	static mapp* Map;
+	static dungeon* Dungeon;
 
 	void input();
 	void mouseInput();
@@ -38,24 +38,32 @@ private:
 	void inputMenu();
 
 public:
+
+	//variables
+	static bool mouseLeftClick;
+	static bool mouseRightClick;
+	static int mouseX, mouseY;
+
 	//Constructor.
 	mainCore(void);
 	//Destructor.
 	~mainCore(void);
 
-	static bool quitGame;	//boolean for quitting the game.
-	void mainLoop();		//main Loop for the whole game.
+	//main loop to start the game
+	static bool quitGame;		//boolean for quitting the game.
+	void mainLoop();			//main Loop for the whole game.
 
+	//update the game state and controller
 	void Update();
 	void Draw();
 
-	void resetMove();		//(not sure)reset all moves to checkpoint.
-	static void resetKeys();//reset all custom changes to Keys.
+	//resetkeys and moves
+	void resetMove();			//(not sure)reset all moves to checkpoint.
+	static void resetKeys();	//reset all custom changes to Keys.
 
-	static bool mouseLeftClick;
-	static int mouseX, mouseY;
 	//Getter.
-	static mapp* getMap();
+	static dungeon* getDungeon();
 };
 
 #endif
+

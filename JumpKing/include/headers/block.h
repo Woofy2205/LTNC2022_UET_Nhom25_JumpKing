@@ -21,11 +21,7 @@ public:
 	* Constructors.
 	*/
 	Block(void);
-	Block(int blockID, Material* materials,
-		bool blockCollision,
-		bool blockDeath,
-		bool blockUse,
-		bool blockVisible);
+	Block(int blockID, Material* materials, bool blockCollision, bool blockDeath, bool blockUse, bool blockVisible);
 	/*
 	* Destructors.
 	*/

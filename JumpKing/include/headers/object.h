@@ -25,30 +25,34 @@ public:
 	bool lethality;						//lethal or not
 	int blockID;						//ID of the object
 	float xPos, yPos;					//Position by x and y
+	int hitBoxX, hitBoxY;
 	bool objSpawned;					//spawned or not
-	bool collisionWithCharacter;		//idk...
+	bool collisionWithCharacter;		//collide with Character.
 	int existTime;						//time that the object exists
 
 	//Properties.
+	bool moveDir;						//true = left | false = right.
 	int moveSpeed;
 	int jumpState;
-	float jumpDistance;								//something the obj buff our character
+	float jumpDistance;					//something the obj buff our character
+	float currentJumpSpeed;
+	float sJumpSpeed;
 	float jumpSpeed;
-	float jumpHeight;
+	float currentJumpDistance;
 	float fallSpeed;
 
 	//Virtual Functions that will be different with different object.
 	virtual void Update();
-	virtual void Draw(SDL_Renderer* renderer, Image img);
+	virtual void Draw(SDL_Renderer* renderer, Image* img);
 	virtual void updateYPos(int var);
 	virtual void updateXPos();
-	virtual void updateObj();
+	virtual bool updateObj();
 	virtual void objPhysics();
 
 	virtual void collisionEffect();
 	virtual void objExterminate();
-	void state1();
-	void state2();
+	void pState1();
+	void pState2();
 
 	void Spawn();
 
@@ -60,7 +64,7 @@ public:
 	//Getters and Setters.
 	int getBlockID();
 	void setBlockID(int blockID);
-	int getMinionState();
+	int getObjState();
 	virtual void setObjState(int objState);
 	virtual bool buff();
 

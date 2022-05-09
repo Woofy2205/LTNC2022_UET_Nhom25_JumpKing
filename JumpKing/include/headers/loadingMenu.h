@@ -10,6 +10,13 @@ class loadingMenu : public Menu {
 private:
 	int time;
 public:
+	/*
+	* boolean gameState
+	* return false if the game is over.
+	* return true if the game is loading.
+	*/
+	bool loadingState;
+	
 	//Constructor.
 	loadingMenu(void);
 	//Destructor.
@@ -22,13 +29,6 @@ public:
 	void Update();
 	void Draw(SDL_Renderer* renderer);
 	void updateTime();
-
-	/*
-	* boolean gameState
-	* return false if the game is over.
-	* return true if the game is loading.
-	*/
-	bool loadingState;
 };
 
 #endif

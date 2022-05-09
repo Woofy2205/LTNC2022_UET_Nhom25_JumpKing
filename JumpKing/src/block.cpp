@@ -4,11 +4,7 @@ Block::Block(void) {
 }
 
 //Constructor.
-Block::Block(int blockID, Material* materials,
-	bool blockCollision,
-	bool blockDeath,
-	bool blockUse,
-	bool blockVisible) {
+Block::Block(int blockID, Material* materials, bool blockCollision, bool blockDeath, bool blockUse, bool blockVisible) {
 	this->blockID = blockID;
 	this->blockCollision = blockCollision;
 	this->blockDeath = blockDeath;

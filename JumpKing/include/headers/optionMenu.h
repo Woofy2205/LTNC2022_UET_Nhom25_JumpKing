@@ -1,25 +1,24 @@
 #pragma once
 
-#ifndef OPTIONSMENU_H
-#define OPTIONSMENU_H
+#ifndef OPTIONMENU_H
+#define OPTIONMENU_H
 
 #include "Menu.h"
 
 //subclass optionMenu, an instance of Menu.
-class OptionsMenu : public Menu
+class optionMenu : public Menu
 {
 private:
-	SDL_Rect Rect;
+	SDL_Rect optionRect;
 	SDL_Rect SetKey;
 
 	bool inSetKey, resetSetKey;
 	bool escTo_mainMenu;
-	
 public:
 	//Constructor.
-	OptionsMenu(void);
+	optionMenu(void);
 	//Destructor.
-	~OptionsMenu(void);
+	~optionMenu(void);
 
 	/*
 	* Functions.
@@ -36,3 +35,4 @@ public:
 };
 
 #endif
+

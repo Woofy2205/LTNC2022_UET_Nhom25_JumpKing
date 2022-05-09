@@ -25,9 +25,9 @@ public:
 	*/
 	void Update();
 	void Draw(SDL_Renderer* renderer);
-	void choose();
-	void leave();
-	void updateActiveButton(int directory);
+	void enter();
+	void escape();
+	void updateActiveButton(int dir);
 };
 
 #endif

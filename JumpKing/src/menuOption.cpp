@@ -9,6 +9,7 @@ menuOption::menuOption(string text, int x, int y) {
 }
 
 menuOption::~menuOption(void) {
+	
 }
 
 string menuOption::getText() {
@@ -26,3 +27,4 @@ int menuOption::getY() {
 void menuOption::setText(string text) {
 	this->text = text;
 }
+
