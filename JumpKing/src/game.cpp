@@ -86,6 +86,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     babe = texture::LoadTexture("image/babe.png");
     victory = texture::LoadTexture("image/victory.png");
 
+    //Icon loading.
+    string icoName = "image/icon.bmp";
+    SDL_Surface* loadedSurface = SDL_LoadBMP(icoName.c_str());
+    SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 255, 0, 255));
+    SDL_SetWindowIcon(window, loadedSurface);
+    SDL_FreeSurface(loadedSurface);
 
     player = new GameObject(64, LEVEL_HEIGHT - 100);
     mapper = new Map();
