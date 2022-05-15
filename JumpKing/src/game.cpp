@@ -11,12 +11,20 @@ SDL_Texture* background = NULL;
 SDL_Texture* foreground = NULL;
 SDL_Texture* victory = NULL;
 SDL_Texture* babe = NULL;
+SDL_Texture* spdPot = NULL;
+SDL_Texture* jmpPot = NULL;
+SDL_Texture* lagPot = NULL;
 Mix_Music* Music = NULL;
 
+
+SDL_Rect spdSrcRect = { 0,0,32,32 };
+SDL_Rect spdRect = { 416,3744,32,32 };
+SDL_Rect spdDestRect = { 416,3744,32,32 };
 
 SDL_Rect babeSrcRect = { 0,0,22,30 };
 SDL_Rect babeRect = { 300,64,22,30 };
 SDL_Rect babeDestRect = { 300,64,22,30 };
+
 
 
 SDL_Rect BgSrc = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT }, BgDest = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
@@ -68,6 +76,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
     background = texture::LoadTexture("image/main_image/background.png");
     foreground = texture::LoadTexture("image/main_image/foreground.png");
+    spdPot = texture::LoadTexture("image/speed_pot.png");
+    jmpPot = texture::LoadTexture("image/rsz_jump_pot.png");
+    lagPot = texture::LoadTexture("image/rsz_lag_pot.png");
     babe = texture::LoadTexture("image/babe.png");
     victory = texture::LoadTexture("image/victory.png");
 
@@ -162,6 +173,7 @@ void Game::update()
 {
     player->Update(mapper->tile, mapper->mapping);
     babeDestRect.y = babeRect.y - player->Camera.y;
+    spdDestRect.y = spdRect.y - player->Camera.y;
     if (player->isWin == true)
     {
         win = true;
@@ -180,10 +192,13 @@ void Game::render()
     SDL_RenderClear(renderer);
     mapper->DrawMap(player->Camera);
     texture::Draw(background, player->Camera, BgDest);
-    // mapper->DrawMap(player->Camera);                         //for checking the blocks whether they fit or not
-    player->Render();
     texture::Draw(foreground, player->Camera, BgDest);
+
+                             //for checking the blocks whether they fit or not
+    player->Render();
     texture::Draw(babe, babeSrcRect, babeDestRect);
+    if(player->isSpdBuff == false) texture::Draw(spdPot, spdSrcRect, spdDestRect);
+    //mapper->DrawMap(player->Camera);
 
     SDL_RenderPresent(renderer);
 

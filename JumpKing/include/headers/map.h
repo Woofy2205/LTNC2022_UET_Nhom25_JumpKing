@@ -13,10 +13,9 @@ private:
 
     SDL_Texture* dirt = NULL;
     SDL_Texture* grass = NULL;
+    SDL_Texture* red_grass = NULL;
     SDL_Texture* stone = NULL;
-    SDL_Texture* spdPot = NULL;
-    SDL_Texture* jmpPot = NULL;
-    SDL_Texture* lagPot = NULL;
+    
 
     int mapping[240][60];
     SDL_Rect tile[240][60];

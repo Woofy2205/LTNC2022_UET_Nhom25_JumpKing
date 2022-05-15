@@ -4,6 +4,7 @@
 #include "Map"
 
 SDL_Rect babeRect2 = { 300,64,22,30 };
+SDL_Rect spdRect2 = { 300,3760,32,32 };
 
 /// <summary>
 /// Collision Check Boolean.
@@ -106,7 +107,9 @@ GameObject::GameObject(int x, int y){
     ypos = y;
 
     isWin = false;
-
+    isSpdBuff = false;
+    isJmpBuff = false;
+    isLag = false;
     xvel = 0;
     yvel = 0;
 
@@ -178,6 +181,13 @@ void GameObject::CollideVertical(SDL_Rect& col, SDL_Rect Tile[][60], int Mapping
             if (Mapping[row][column] != 3 && checkCollision2(col, Tile[row][column]))
             {
                 //Mix_PlayChannel( -1, High, 0 );
+                int val = Mapping[row][column];
+                if (val == 4) {
+                    Mapping[row][column] = 3;
+                    isSpdBuff = true;
+                    maxxspeed += 5;
+                    
+                } 
                 if (yvel > 0)
                 {
                     ypos = Tile[row][column].y - KING_HEIGHT;
@@ -207,6 +217,12 @@ void GameObject::CollideHorizontal(SDL_Rect& col, SDL_Rect Tile[][60], int Mappi
             if (Mapping[row][column] != 3 && checkCollision2(col, Tile[row][column]))
             {
                 //Mix_PlayChannel( -1, High, 0 );
+                int val = Mapping[row][column];
+                if (val == 4) {
+                    Mapping[row][column] = 3;
+                    isSpdBuff = true;
+                    maxxspeed += 5;
+                } 
                 if (xvel > 0)
                 {
                     if (onGround == true)
@@ -380,8 +396,7 @@ void GameObject::Update(SDL_Rect Tile[][60], int Mapping[][60])
     destRect.y = (int)ypos - Camera.y;
 
     if (checkCollision2(collider, babeRect2) == true) isWin = true;
-
-    cout << Camera.y << " " << isWin << endl;
+    
 }
 ///As being continously print on the terminal, vertical distance will be updated and followed by a boolean isWin.
 

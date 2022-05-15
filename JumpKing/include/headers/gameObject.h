@@ -99,8 +99,8 @@ public:
     static const int xspeed = 1;
     static const int yspeed = 1;
 
-    static const int maxxspeed = 6;
-    static const int maxyspeed = 8;
+    int maxxspeed = 6;
+    int maxyspeed = 8;
 
 
     static const int KING_WIDTH = 48;
@@ -108,5 +108,6 @@ public:
 
     SDL_Rect Camera = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
 
+    bool isSpdBuff, isJmpBuff, isLag;
 };
 #endif
