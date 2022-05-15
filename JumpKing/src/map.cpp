@@ -387,9 +387,9 @@ void Map::CloseMap()
     SDL_DestroyTexture(dirt);
     SDL_DestroyTexture(stone);
     SDL_DestroyTexture(grass);
-
+    SDL_DestroyTexture(red_grass);
     dirt = NULL;
     stone = NULL;
     grass = NULL;
-
+    red_grass = NULL;
 }

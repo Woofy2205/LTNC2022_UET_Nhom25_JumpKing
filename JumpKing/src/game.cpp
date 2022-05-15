@@ -206,8 +206,8 @@ void Game::render()
                              //for checking the blocks whether they fit or not
     player->Render();
     texture::Draw(babe, babeSrcRect, babeDestRect);
-    if(player->isSpdBuff == false) texture::Draw(spdPot, spdSrcRect, spdDestRect);
-    if(player->isJmpBuff == false) texture::Draw(jmpPot, jmpSrcRect, jmpDestRect);
+    if(player->isSpdBuff_forDraw == false) texture::Draw(spdPot, spdSrcRect, spdDestRect);
+    if(player->isJmpBuff_forDraw == false) texture::Draw(jmpPot, jmpSrcRect, jmpDestRect);
     //mapper->DrawMap(player->Camera);
 
     SDL_RenderPresent(renderer);
@@ -260,6 +260,10 @@ void Game::clean()
     babe = NULL;
     SDL_DestroyTexture(victory);
     victory = NULL;
+    SDL_DestroyTexture(spdPot);
+    spdPot = NULL;
+    SDL_DestroyTexture(jmpPot);
+    jmpPot = NULL;
 
     player->ObjectClose();
     player = NULL;

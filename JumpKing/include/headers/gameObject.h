@@ -5,6 +5,7 @@
 #include "Game.h"
 #include <math.h>
 #include "header.h"
+#include "timer.h"
 
 #define gravity 0.8
 #define MAX_FALL_SPEED 20
@@ -53,6 +54,7 @@ private:
     bool onGround;
     bool isWin;
 
+    Timer buffTime;
 public:
     GameObject(int x, int y);
     ~GameObject();
@@ -66,7 +68,9 @@ public:
     void Update(SDL_Rect Tile[][60], int Mapping[][60]);
 
     void RunLeft();
+    void RunLeftBuff();
     void RunRight();
+    void RunRightBuff();
 
     void PrepareJump();
     void Jump();
@@ -102,8 +106,8 @@ public:
     static const int xspeed = 1;
     static const int yspeed = 1;
 
-    int maxxspeed = 6;
-    int maxyspeed = 8;
+    static const int maxxspeed = 6;
+    static const int maxyspeed = 8;
 
 
     static const int KING_WIDTH = 48;
@@ -111,6 +115,6 @@ public:
 
     SDL_Rect Camera = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
 
-    bool isSpdBuff, isJmpBuff, isLag;
+    bool isSpdBuff, isSpdBuff_forDraw, isJmpBuff, isJmpBuff_forDraw, isLag;
 };
 #endif
