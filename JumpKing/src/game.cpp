@@ -21,6 +21,10 @@ SDL_Rect spdSrcRect = { 0,0,32,32 };
 SDL_Rect spdRect = { 416,3744,32,32 };
 SDL_Rect spdDestRect = { 416,3744,32,32 };
 
+SDL_Rect jmpSrcRect = { 0,0,32,32 };
+SDL_Rect jmpRect = { 544,3712,32,32};
+SDL_Rect jmpDestRect = { 544,3712,32,32};
+
 SDL_Rect babeSrcRect = { 0,0,22,30 };
 SDL_Rect babeRect = { 300,64,22,30 };
 SDL_Rect babeDestRect = { 300,64,22,30 };
@@ -77,8 +81,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     background = texture::LoadTexture("image/main_image/background.png");
     foreground = texture::LoadTexture("image/main_image/foreground.png");
     spdPot = texture::LoadTexture("image/speed_pot.png");
-    jmpPot = texture::LoadTexture("image/rsz_jump_pot.png");
-    lagPot = texture::LoadTexture("image/rsz_lag_pot.png");
+    jmpPot = texture::LoadTexture("image/jump_pot.png");
+    lagPot = texture::LoadTexture("image/lag_pot.png");
     babe = texture::LoadTexture("image/babe.png");
     victory = texture::LoadTexture("image/victory.png");
 
@@ -154,15 +158,18 @@ void Game::handleEvents()
                 switch (player->inputType.jump)
                 {
                 case 0:
-                    player->Jump();
+                    if (player->isJmpBuff == true)player->JumpBuff();
+                    else player->Jump();
                     break;
 
                 case 1:
-                    player->JumpRight();
+                    if (player->isJmpBuff == true)player->JumpRightBuff();
+                    else player->JumpRight();
                     break;
 
                 case 2:
-                    player->JumpLeft();
+                    if (player->isJmpBuff == true)player->JumpLeftBuff();
+                    else player->JumpLeft();
                     break;
                 }
             }
@@ -174,6 +181,8 @@ void Game::update()
     player->Update(mapper->tile, mapper->mapping);
     babeDestRect.y = babeRect.y - player->Camera.y;
     spdDestRect.y = spdRect.y - player->Camera.y;
+    jmpDestRect.y = jmpRect.y - player->Camera.y;
+
     if (player->isWin == true)
     {
         win = true;
@@ -198,6 +207,7 @@ void Game::render()
     player->Render();
     texture::Draw(babe, babeSrcRect, babeDestRect);
     if(player->isSpdBuff == false) texture::Draw(spdPot, spdSrcRect, spdDestRect);
+    if(player->isJmpBuff == false) texture::Draw(jmpPot, jmpSrcRect, jmpDestRect);
     //mapper->DrawMap(player->Camera);
 
     SDL_RenderPresent(renderer);

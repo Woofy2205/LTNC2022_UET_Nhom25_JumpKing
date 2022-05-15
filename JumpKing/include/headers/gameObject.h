@@ -70,8 +70,11 @@ public:
 
     void PrepareJump();
     void Jump();
+    void JumpBuff();
     void JumpLeft();
+    void JumpLeftBuff();
     void JumpRight();
+    void JumpRightBuff();
 
 
     void StopRunRight();

@@ -186,9 +186,12 @@ void GameObject::CollideVertical(SDL_Rect& col, SDL_Rect Tile[][60], int Mapping
                     Mapping[row][column] = 3;
                     isSpdBuff = true;
                     maxxspeed += 5;
-                    
                 } 
-                if (yvel > 0)
+                else if (val == 5) {
+                    Mapping[row][column] = 3;
+                    isJmpBuff = true;
+                }
+                else if (yvel > 0)
                 {
                     ypos = Tile[row][column].y - KING_HEIGHT;
                     yvel = 0;
@@ -222,8 +225,12 @@ void GameObject::CollideHorizontal(SDL_Rect& col, SDL_Rect Tile[][60], int Mappi
                     Mapping[row][column] = 3;
                     isSpdBuff = true;
                     maxxspeed += 5;
+                }
+                else if (val == 5) {
+                    Mapping[row][column] = 3;
+                    isJmpBuff = true;
                 } 
-                if (xvel > 0)
+                else if (xvel > 0)
                 {
                     if (onGround == true)
                     {
@@ -297,6 +304,19 @@ void GameObject::Jump(){
     startTime = 0;
     jumpTime = 0;
 }
+void GameObject::JumpBuff()
+{
+    jumpTime = (SDL_GetTicks() - startTime);
+    status = jumping;
+    yvel = -(jumpTime * 0.02);
+    if (yvel > -10) yvel = -10;
+    if (yvel < -40) yvel = -40;
+
+    onGround = false;
+
+    startTime = 0;
+    jumpTime = 0;
+}
 /// Specific Statistical Formula is included.
 
 
@@ -319,6 +339,21 @@ void GameObject::JumpLeft()
     startTime = 0;
     jumpTime = 0;
 }
+void GameObject::JumpLeftBuff()
+{
+    jumpTime = (SDL_GetTicks() - startTime);
+    status = jumping;
+    yvel = -(jumpTime * 0.02);
+    if (isLag == true) xvel = maxxspeed;
+    else xvel = -maxxspeed;
+    if (yvel > -10) yvel = -10;
+    if (yvel < -40) yvel = -40;
+
+    onGround = false;
+
+    startTime = 0;
+    jumpTime = 0;
+}
 
 void GameObject::JumpRight()
 {
@@ -334,7 +369,21 @@ void GameObject::JumpRight()
     startTime = 0;
     jumpTime = 0;
 }
+void GameObject::JumpRightBuff()
+{
+    jumpTime = (SDL_GetTicks() - startTime)*2;
+    status = jumping;
+    yvel = -(jumpTime * 0.02);
+    if (isLag == true) xvel = -maxxspeed;
+    else xvel = maxxspeed;
+    if (yvel > -10) yvel = -10;
+    if (yvel < -40) yvel = -40;
 
+    onGround = false;
+
+    startTime = 0;
+    jumpTime = 0;
+}
 
 void GameObject::StopRunRight()
 {
