@@ -21,9 +21,9 @@ SDL_Rect spdSrcRect = { 0,0,32,32 };
 SDL_Rect spdRect = { 416,3744,32,32 };
 SDL_Rect spdDestRect = { 416,3744,32,32 };
 
-SDL_Rect babeSrcRect = { 0,0,22,30 };
-SDL_Rect babeRect = { 300,64,22,30 };
-SDL_Rect babeDestRect = { 300,64,22,30 };
+SDL_Rect babeSrcRect = { 0,0,48,48 };
+SDL_Rect babeRect = { 592,112,48,48 };
+SDL_Rect babeDestRect = { 592,112,48,48 };
 
 
 
