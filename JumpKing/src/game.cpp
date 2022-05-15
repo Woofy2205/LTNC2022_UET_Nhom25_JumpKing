@@ -201,10 +201,9 @@ void Game::render()
     SDL_RenderClear(renderer);
     mapper->DrawMap(player->Camera);
     texture::Draw(background, player->Camera, BgDest);
-    texture::Draw(foreground, player->Camera, BgDest);
-
-                             //for checking the blocks whether they fit or not
+    // texture::Draw(foreground, player->Camera, BgDest); //for checking the blocks whether they fit or not
     player->Render();
+    texture::Draw(foreground, player->Camera, BgDest);
     texture::Draw(babe, babeSrcRect, babeDestRect);
     if(player->isSpdBuff_forDraw == false) texture::Draw(spdPot, spdSrcRect, spdDestRect);
     if(player->isJmpBuff_forDraw == false) texture::Draw(jmpPot, jmpSrcRect, jmpDestRect);
