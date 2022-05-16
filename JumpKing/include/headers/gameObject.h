@@ -115,6 +115,6 @@ public:
 
     SDL_Rect Camera = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
 
-    bool isSpdBuff, isSpdBuff_forDraw, isJmpBuff, isJmpBuff_forDraw, isLag;
+    bool isSpdBuff, isSpdBuff_forDraw, isJmpBuff, isJmpBuff_forDraw, isLag, isLag_forDraw, godPot_draw;
 };
 #endif

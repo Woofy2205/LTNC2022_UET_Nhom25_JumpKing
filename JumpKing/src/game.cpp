@@ -14,16 +14,25 @@ SDL_Texture* babe = NULL;
 SDL_Texture* spdPot = NULL;
 SDL_Texture* jmpPot = NULL;
 SDL_Texture* lagPot = NULL;
+SDL_Texture* godPot = NULL; // erase lag effect
 Mix_Music* Music = NULL;
 
 
 SDL_Rect spdSrcRect = { 0,0,32,32 };
-SDL_Rect spdRect = { 416,3744,32,32 };
-SDL_Rect spdDestRect = { 416,3744,32,32 };
+SDL_Rect spdRect = { 928,3456,32,32 };
+SDL_Rect spdDestRect = { 928,3456,32,32 };
 
 SDL_Rect jmpSrcRect = { 0,0,32,32 };
-SDL_Rect jmpRect = { 544,3712,32,32};
-SDL_Rect jmpDestRect = { 544,3712,32,32};
+SDL_Rect jmpRect = { 272,1328,32,32};
+SDL_Rect jmpDestRect = { 272,1328,32,32};
+
+SDL_Rect lagSrcRect = { 0,0,32,32 };
+SDL_Rect lagRect = {288,2576,32,32};
+SDL_Rect lagDestRect = {288,2576,32,32};
+
+SDL_Rect godSrcRect = { 0,0,32,32 };
+SDL_Rect godRect = {32,1792,32,32};
+SDL_Rect godDestRect = {32,1792,32,32};
 
 SDL_Rect babeSrcRect = { 0,0,48,48 };
 SDL_Rect babeRect = { 592,112,48,48 };
@@ -83,6 +92,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     spdPot = texture::LoadTexture("image/speed_pot.png");
     jmpPot = texture::LoadTexture("image/jump_pot.png");
     lagPot = texture::LoadTexture("image/lag_pot.png");
+    godPot = texture::LoadTexture("image/god_pot.png"); 
     babe = texture::LoadTexture("image/babe.png");
     victory = texture::LoadTexture("image/victory.png");
 
@@ -182,7 +192,8 @@ void Game::update()
     babeDestRect.y = babeRect.y - player->Camera.y;
     spdDestRect.y = spdRect.y - player->Camera.y;
     jmpDestRect.y = jmpRect.y - player->Camera.y;
-
+    lagDestRect.y = lagRect.y - player->Camera.y;
+    godDestRect.y = godRect.y - player->Camera.y;
     if (player->isWin == true)
     {
         win = true;
@@ -208,6 +219,8 @@ void Game::render()
     texture::Draw(babe, babeSrcRect, babeDestRect);
     if(player->isSpdBuff_forDraw == false) texture::Draw(spdPot, spdSrcRect, spdDestRect);
     if(player->isJmpBuff_forDraw == false) texture::Draw(jmpPot, jmpSrcRect, jmpDestRect);
+    if(player->isLag_forDraw == false) texture::Draw(lagPot, lagSrcRect, lagDestRect);
+    if(player->godPot_draw == false) texture::Draw(godPot, godSrcRect, godDestRect);
     //mapper->DrawMap(player->Camera);
 
     SDL_RenderPresent(renderer);
@@ -264,7 +277,8 @@ void Game::clean()
     spdPot = NULL;
     SDL_DestroyTexture(jmpPot);
     jmpPot = NULL;
-
+    SDL_DestroyTexture(lagPot);
+    lagPot = NULL;
     player->ObjectClose();
     player = NULL;
     mapper->CloseMap();

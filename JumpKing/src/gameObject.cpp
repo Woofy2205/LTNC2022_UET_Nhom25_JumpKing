@@ -112,6 +112,8 @@ GameObject::GameObject(int x, int y){
     isJmpBuff = false;
     isJmpBuff_forDraw = false;
     isLag = false;
+    isLag_forDraw = false;
+    godPot_draw = false;
     xvel = 0;
     yvel = 0;
 
@@ -196,6 +198,16 @@ void GameObject::CollideVertical(SDL_Rect& col, SDL_Rect Tile[][60], int Mapping
                     isJmpBuff_forDraw = true;
                     buffTime.setTime();
                 }
+                else if (val == 6) {
+                    Mapping[row][column] = 3;
+                    isLag = true;
+                    isLag_forDraw = true;
+                }
+                else if (val == 7) {
+                    Mapping[row][column] = 3;
+                    godPot_draw = true;
+                    isLag = false;
+                }
                 else if (yvel > 0)
                 {
                     ypos = Tile[row][column].y - KING_HEIGHT;
@@ -238,6 +250,16 @@ void GameObject::CollideHorizontal(SDL_Rect& col, SDL_Rect Tile[][60], int Mappi
                     isJmpBuff_forDraw = true;
                     buffTime.setTime();
                 } 
+                else if (val == 6) {
+                    Mapping[row][column] = 3;
+                    isLag = true;
+                    isLag_forDraw = true;
+                }
+                else if (val == 7) {
+                    Mapping[row][column] = 3;
+                    godPot_draw = true;
+                    isLag = false;
+                }
                 else if (xvel > 0)
                 {
                     if (onGround == true)
@@ -283,20 +305,24 @@ void GameObject::CollideHorizontal(SDL_Rect& col, SDL_Rect Tile[][60], int Mappi
 /// </summary>
 void GameObject::RunLeft(){
     status = running;
-    xvel = -maxxspeed;
+    if (isLag == true) xvel = maxxspeed;
+    else xvel = -maxxspeed;
 }
 void GameObject::RunLeftBuff(){
     status = running;
-    xvel = -(maxxspeed+5);
+    if (isLag == true) xvel = maxxspeed+5;
+    else xvel = -(maxxspeed+5);
 }
 
 void GameObject::RunRight(){
     status = running;
-    xvel = maxxspeed;
+    if (isLag == true) xvel = -maxxspeed;
+    else xvel = maxxspeed;
 }
 void GameObject::RunRightBuff(){
     status = running;
-    xvel = (maxxspeed+5);
+    if (isLag == true) xvel = -(maxxspeed+5);
+    else xvel = (maxxspeed+5);
 }
 
 /// <summary>
@@ -346,7 +372,8 @@ void GameObject::JumpLeft()
     jumpTime = SDL_GetTicks() - startTime;
     status = jumping;
     yvel = -(jumpTime * 0.02);
-    xvel = -maxxspeed;
+    if (isLag == true) xvel = maxxspeed;
+    else xvel = -maxxspeed;
     if (yvel > -10) yvel = -10;
     if (yvel < -30) yvel = -30;
 
@@ -376,7 +403,8 @@ void GameObject::JumpRight()
     jumpTime = SDL_GetTicks() - startTime;
     status = jumping;
     yvel = -(jumpTime * 0.02);
-    xvel = maxxspeed;
+    if (isLag == true) xvel = -maxxspeed;
+    else xvel = maxxspeed;
     if (yvel > -10) yvel = -10;
     if (yvel < -30) yvel = -30;
 
@@ -439,12 +467,12 @@ void GameObject::Update(SDL_Rect Tile[][60], int Mapping[][60])
     yvel += gravity;
     if (yvel > MAX_FALL_SPEED) yvel = MAX_FALL_SPEED;
 
-    if (buffTime.getTimeElapsed() > 20000 && isJmpBuff == true) {
+    if (buffTime.getTimeElapsed() > 60000 && isJmpBuff == true) {
         isJmpBuff = false;
-    }//no more jumping buff after 20s
-    if (buffTime.getTimeElapsed() > 20000 && isSpdBuff == true) {
+    }//no more jumping buff after 1 min
+    if (buffTime.getTimeElapsed() > 60000 && isSpdBuff == true) {
         isSpdBuff = false;
-    }//no more speed buff after 20s
+    }//no more speed buff after 1 min
 
     ypos += yvel;
     collider.y = (int)ypos;
