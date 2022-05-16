@@ -19,8 +19,8 @@ Mix_Music* Music = NULL;
 
 
 SDL_Rect spdSrcRect = { 0,0,32,32 };
-SDL_Rect spdRect = { 928,3456,32,32 };
-SDL_Rect spdDestRect = { 928,3456,32,32 };
+SDL_Rect spdRect = { 896,3456,32,32 };
+SDL_Rect spdDestRect = { 896,3456,32,32 };
 
 SDL_Rect jmpSrcRect = { 0,0,32,32 };
 SDL_Rect jmpRect = { 272,1328,32,32};
@@ -96,6 +96,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     babe = texture::LoadTexture("image/babe.png");
     victory = texture::LoadTexture("image/victory.png");
 
+    //Icon loading.
+    string icoName = "image/icon.bmp";
+    SDL_Surface* loadedSurface = SDL_LoadBMP(icoName.c_str());
+    SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 255, 0, 255));
+    SDL_SetWindowIcon(window, loadedSurface);
+    SDL_FreeSurface(loadedSurface);
 
     player = new GameObject(64, LEVEL_HEIGHT - 100);
     mapper = new Map();
@@ -212,10 +218,9 @@ void Game::render()
     SDL_RenderClear(renderer);
     mapper->DrawMap(player->Camera);
     texture::Draw(background, player->Camera, BgDest);
-    texture::Draw(foreground, player->Camera, BgDest);
-
-                             //for checking the blocks whether they fit or not
+    // texture::Draw(foreground, player->Camera, BgDest); //for checking the blocks whether they fit or not
     player->Render();
+    texture::Draw(foreground, player->Camera, BgDest);
     texture::Draw(babe, babeSrcRect, babeDestRect);
     if(player->isSpdBuff_forDraw == false) texture::Draw(spdPot, spdSrcRect, spdDestRect);
     if(player->isJmpBuff_forDraw == false) texture::Draw(jmpPot, jmpSrcRect, jmpDestRect);
