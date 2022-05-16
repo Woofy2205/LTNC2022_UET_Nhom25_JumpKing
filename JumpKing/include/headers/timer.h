@@ -17,7 +17,7 @@ public:
 	int getTimeElapsed();
 
 private:
-	unsigned int start;
+	int start;
 };
 
 

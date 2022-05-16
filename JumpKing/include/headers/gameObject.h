@@ -45,6 +45,7 @@ private:
     SDL_Rect srcRect, destRect, collider;
 
     Mix_Chunk* High = NULL;
+    Mix_Chunk* potion_music = NULL;
 
     SDL_Rect RunningRight[5];
     SDL_Rect RunningLeft[5];

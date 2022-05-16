@@ -101,7 +101,7 @@ GameObject::GameObject(int x, int y){
     objTextureLeft = texture::LoadTexture("image/king_left_2.png");
     //Loading Audio.
     High = Mix_LoadWAV("sound/high.wav");
-
+    potion_music = Mix_LoadWAV("sound/collision(potion).wav");
     //Initializing statistics.
     xpos = x;
     ypos = y;
@@ -188,23 +188,27 @@ void GameObject::CollideVertical(SDL_Rect& col, SDL_Rect Tile[][60], int Mapping
                 int val = Mapping[row][column];
                 if (val == 4) {
                     Mapping[row][column] = 3;
+                    Mix_PlayChannel(-1, potion_music, 0);
                     isSpdBuff = true;
                     isSpdBuff_forDraw = true;
                     buffTime.setTime();
                 } 
                 else if (val == 5) {
                     Mapping[row][column] = 3;
+                    Mix_PlayChannel(-1, potion_music, 0);
                     isJmpBuff = true;
                     isJmpBuff_forDraw = true;
                     buffTime.setTime();
                 }
                 else if (val == 6) {
                     Mapping[row][column] = 3;
+                    Mix_PlayChannel(-1, potion_music, 0);
                     isLag = true;
                     isLag_forDraw = true;
                 }
                 else if (val == 7) {
                     Mapping[row][column] = 3;
+                    Mix_PlayChannel(-1, potion_music, 0);
                     godPot_draw = true;
                     isLag = false;
                 }
@@ -240,23 +244,27 @@ void GameObject::CollideHorizontal(SDL_Rect& col, SDL_Rect Tile[][60], int Mappi
                 int val = Mapping[row][column];
                 if (val == 4) {
                     Mapping[row][column] = 3;
+                    Mix_PlayChannel(-1, potion_music, 0);
                     isSpdBuff = true;
                     isSpdBuff_forDraw = true;
                     buffTime.setTime();
                 }
                 else if (val == 5) {
                     Mapping[row][column] = 3;
+                    Mix_PlayChannel(-1, potion_music, 0);
                     isJmpBuff = true;
                     isJmpBuff_forDraw = true;
                     buffTime.setTime();
                 } 
                 else if (val == 6) {
                     Mapping[row][column] = 3;
+                    Mix_PlayChannel(-1, potion_music, 0);
                     isLag = true;
                     isLag_forDraw = true;
                 }
                 else if (val == 7) {
                     Mapping[row][column] = 3;
+                    Mix_PlayChannel(-1, potion_music, 0);
                     godPot_draw = true;
                     isLag = false;
                 }

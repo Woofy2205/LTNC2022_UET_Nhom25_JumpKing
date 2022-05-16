@@ -82,7 +82,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     }
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
-    Music = Mix_LoadMUS("sound/music.wav");
+    Music = Mix_LoadMUS("sound/win.wav");
 
     win = false;
     isRetrying = true;
