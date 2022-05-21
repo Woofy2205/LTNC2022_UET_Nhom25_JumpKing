@@ -41,7 +41,7 @@ SDL_Rect babeSrcRect = { 0,0,48,48 };
 SDL_Rect babeRect = { 592,112,48,48 };
 SDL_Rect babeDestRect = { 592,112,48,48 };
 
-Uint32 score, hScore, timeVal;
+Uint32 score, hScore, timeVal, startTime;
 
 SDL_Rect BgSrc = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT }, BgDest = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
 GameObject* player;
@@ -113,6 +113,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
     player = new GameObject(64, LEVEL_HEIGHT - 100);
     mapper = new Map();
+    startTime = 0;
 }
 
 void Game::handleEvents()
@@ -247,7 +248,7 @@ void Game::render()
     
     //Time counting
     string strTime = "TIME: ";
-    timeVal = SDL_GetTicks() / 1000;
+    timeVal = SDL_GetTicks() / 1000 - startTime;
     string timeRes = to_string(timeVal);
     strTime += timeRes;
     timeGame.setText(strTime);
@@ -277,6 +278,7 @@ void Game::retry()
             win = false;
             player->isWin = false;
             isRetrying = true;
+            startTime = SDL_GetTicks()/1000;
             player->Reset();
             break;
         case SDLK_n:

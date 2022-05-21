@@ -4,7 +4,6 @@
 #include "Map"
 
 SDL_Rect babeRect2 = { 592,112,48,48 };
-
 /// <summary>
 /// Collision Check Boolean.
 /// *literally, coordinations.
@@ -170,6 +169,14 @@ void GameObject::Reset(){
     inputType.right = 3;
     inputType.up = 0;
     inputType.jump = 0;
+
+    isSpdBuff = false;
+    isSpdBuff_forDraw = false;
+    isJmpBuff = false;
+    isJmpBuff_forDraw = false;
+    isLag = false;
+    isLag_forDraw = false;
+    godPot_draw = false;
 }
 
 /// <summary>
@@ -186,31 +193,35 @@ void GameObject::CollideVertical(SDL_Rect& col, SDL_Rect Tile[][60], int Mapping
                 //Mix_PlayChannel( -1, High, 0 );
                 int val = Mapping[row][column];
                 if (val == 4) {
-                    Mapping[row][column] = 3;
+                    Mapping[row][column] = 9;
                     Mix_PlayChannel(-1, potion_music, 0);
                     isSpdBuff = true;
                     isSpdBuff_forDraw = true;
                     buffTime.setTime();
                 } 
                 else if (val == 5) {
-                    Mapping[row][column] = 3;
+                    Mapping[row][column] = 10;
                     Mix_PlayChannel(-1, potion_music, 0);
                     isJmpBuff = true;
                     isJmpBuff_forDraw = true;
                     buffTime.setTime();
                 }
                 else if (val == 6) {
-                    Mapping[row][column] = 3;
+                    Mapping[row][column] = 11;
                     Mix_PlayChannel(-1, potion_music, 0);
                     isLag = true;
                     isLag_forDraw = true;
                 }
                 else if (val == 7) {
-                    Mapping[row][column] = 3;
+                    Mapping[row][column] = 12;
                     Mix_PlayChannel(-1, potion_music, 0);
                     godPot_draw = true;
                     isLag = false;
                 }
+                else if (val == 9) Mapping[row][column] = 4;
+                else if (val == 10) Mapping[row][column] = 5;
+                else if (val == 11) Mapping[row][column] = 6;
+                else if (val == 12) Mapping[row][column] = 7;
                 else if (yvel > 0)
                 {
                     ypos = Tile[row][column].y - KING_HEIGHT;
@@ -242,31 +253,35 @@ void GameObject::CollideHorizontal(SDL_Rect& col, SDL_Rect Tile[][60], int Mappi
                 //Mix_PlayChannel( -1, High, 0 );
                 int val = Mapping[row][column];
                 if (val == 4) {
-                    Mapping[row][column] = 3;
+                    Mapping[row][column] = 9;
                     Mix_PlayChannel(-1, potion_music, 0);
                     isSpdBuff = true;
                     isSpdBuff_forDraw = true;
                     buffTime.setTime();
                 }
                 else if (val == 5) {
-                    Mapping[row][column] = 3;
+                    Mapping[row][column] = 10;
                     Mix_PlayChannel(-1, potion_music, 0);
                     isJmpBuff = true;
                     isJmpBuff_forDraw = true;
                     buffTime.setTime();
                 } 
                 else if (val == 6) {
-                    Mapping[row][column] = 3;
+                    Mapping[row][column] = 11;
                     Mix_PlayChannel(-1, potion_music, 0);
                     isLag = true;
                     isLag_forDraw = true;
                 }
                 else if (val == 7) {
-                    Mapping[row][column] = 3;
+                    Mapping[row][column] = 12;
                     Mix_PlayChannel(-1, potion_music, 0);
                     godPot_draw = true;
                     isLag = false;
                 }
+                else if (val == 9) Mapping[row][column] = 4;
+                else if (val == 10) Mapping[row][column] = 5;
+                else if (val == 11) Mapping[row][column] = 6;
+                else if (val == 12) Mapping[row][column] = 7;
                 else if (xvel > 0)
                 {
                     if (onGround == true)
@@ -379,8 +394,14 @@ void GameObject::JumpLeft()
     jumpTime = SDL_GetTicks() - startTime;
     status = jumping;
     yvel = -(jumpTime * 0.02);
-    if (isLag == true) xvel = maxxspeed;
-    else xvel = -maxxspeed;
+    if (isLag == true){
+        if(isSpdBuff == true) xvel = maxxspeed+5;
+        else xvel = maxxspeed;
+    }
+    else{
+        if(isSpdBuff == true) xvel = -(maxxspeed+5);
+        else xvel = -maxxspeed;
+    }
     if (yvel > -10) yvel = -10;
     if (yvel < -30) yvel = -30;
 
@@ -394,8 +415,14 @@ void GameObject::JumpLeftBuff()
     jumpTime = (SDL_GetTicks() - startTime);
     status = jumping;
     yvel = -(jumpTime * 0.02);
-    if (isLag == true) xvel = maxxspeed;
-    else xvel = -maxxspeed;
+    if (isLag == true){
+        if(isSpdBuff == true) xvel = maxxspeed+5;
+        else xvel = maxxspeed;
+    }
+    else{
+        if(isSpdBuff == true) xvel = -(maxxspeed+5);
+        else xvel = -maxxspeed;
+    }
     if (yvel > -10) yvel = -10;
     if (yvel < -40) yvel = -40;
 
@@ -410,8 +437,14 @@ void GameObject::JumpRight()
     jumpTime = SDL_GetTicks() - startTime;
     status = jumping;
     yvel = -(jumpTime * 0.02);
-    if (isLag == true) xvel = -maxxspeed;
-    else xvel = maxxspeed;
+    if (isLag == true){
+        if(isSpdBuff == true) xvel = -(maxxspeed+5);
+        else xvel = -maxxspeed;
+    }
+    else{
+        if(isSpdBuff == true) xvel = (maxxspeed+5);
+        else xvel = maxxspeed;
+    }
     if (yvel > -10) yvel = -10;
     if (yvel < -30) yvel = -30;
 
@@ -425,8 +458,14 @@ void GameObject::JumpRightBuff()
     jumpTime = (SDL_GetTicks() - startTime)*2;
     status = jumping;
     yvel = -(jumpTime * 0.02);
-    if (isLag == true) xvel = -maxxspeed;
-    else xvel = maxxspeed;
+    if (isLag == true){
+        if(isSpdBuff == true) xvel = -(maxxspeed+5);
+        else xvel = -maxxspeed;
+    }
+    else{
+        if(isSpdBuff == true) xvel = (maxxspeed+5);
+        else xvel = maxxspeed;
+    }
     if (yvel > -10) yvel = -10;
     if (yvel < -40) yvel = -40;
 

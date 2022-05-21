@@ -378,6 +378,14 @@ void Map::DrawMap(SDL_Rect Camera) {
                 case 8:
                     texture::Draw(red_grass, src, dest);
                     break;
+                case 9:
+                    break; //for spdBuff reset
+                case 10:
+                    break; //for jmpBuff reset
+                case 11:
+                    break; //for lagDeBuff reset
+                case 12:
+                    break; //for godBuff reset
                 default:
                     break;
                 }
