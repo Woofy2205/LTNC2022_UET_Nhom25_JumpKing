@@ -3,8 +3,8 @@
 #include "texture.h"
 #include "Map"
 
-//SDL_Rect babeRect2 = { 592,112,48,48 };
-SDL_Rect babeRect2 = { 896,3456,32,32 };
+SDL_Rect babeRect2 = { 592,112,48,48 };
+//SDL_Rect babeRect2 = { 896,3456,32,32 };
 /// <summary>
 /// Collision Check Boolean.
 /// *literally, coordinations.
