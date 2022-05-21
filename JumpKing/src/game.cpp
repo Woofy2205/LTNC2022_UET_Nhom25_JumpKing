@@ -240,7 +240,7 @@ void Game::render()
     texture::Draw(background, player->Camera, BgDest);
     player->Render();
     texture::Draw(foreground, player->Camera, BgDest);
-    texture::Draw(babe, babeSrcRect, babeDestRect);
+    texture::Draw(babe, spdSrcRect, spdDestRect);
     if(player->isSpdBuff_forDraw == false) texture::Draw(spdPot, spdSrcRect, spdDestRect);
     if(player->isJmpBuff_forDraw == false) texture::Draw(jmpPot, jmpSrcRect, jmpDestRect);
     if(player->isLag_forDraw == false) texture::Draw(lagPot, lagSrcRect, lagDestRect);
@@ -280,6 +280,7 @@ void Game::retry()
             isRetrying = true;
             startTime = SDL_GetTicks()/1000;
             player->Reset();
+            mapper = new Map();
             break;
         case SDLK_n:
             isRunning = false;

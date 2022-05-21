@@ -3,7 +3,8 @@
 #include "texture.h"
 #include "Map"
 
-SDL_Rect babeRect2 = { 592,112,48,48 };
+//SDL_Rect babeRect2 = { 592,112,48,48 };
+SDL_Rect babeRect2 = { 896,3456,32,32 };
 /// <summary>
 /// Collision Check Boolean.
 /// *literally, coordinations.
@@ -193,35 +194,31 @@ void GameObject::CollideVertical(SDL_Rect& col, SDL_Rect Tile[][60], int Mapping
                 //Mix_PlayChannel( -1, High, 0 );
                 int val = Mapping[row][column];
                 if (val == 4) {
-                    Mapping[row][column] = 9;
+                    Mapping[row][column] = 3;
                     Mix_PlayChannel(-1, potion_music, 0);
                     isSpdBuff = true;
                     isSpdBuff_forDraw = true;
                     buffTime.setTime();
                 } 
                 else if (val == 5) {
-                    Mapping[row][column] = 10;
+                    Mapping[row][column] = 3;
                     Mix_PlayChannel(-1, potion_music, 0);
                     isJmpBuff = true;
                     isJmpBuff_forDraw = true;
                     buffTime.setTime();
                 }
                 else if (val == 6) {
-                    Mapping[row][column] = 11;
+                    Mapping[row][column] = 3;
                     Mix_PlayChannel(-1, potion_music, 0);
                     isLag = true;
                     isLag_forDraw = true;
                 }
                 else if (val == 7) {
-                    Mapping[row][column] = 12;
+                    Mapping[row][column] = 3;
                     Mix_PlayChannel(-1, potion_music, 0);
                     godPot_draw = true;
                     isLag = false;
                 }
-                else if (val == 9) Mapping[row][column] = 4;
-                else if (val == 10) Mapping[row][column] = 5;
-                else if (val == 11) Mapping[row][column] = 6;
-                else if (val == 12) Mapping[row][column] = 7;
                 else if (yvel > 0)
                 {
                     ypos = Tile[row][column].y - KING_HEIGHT;
@@ -253,35 +250,31 @@ void GameObject::CollideHorizontal(SDL_Rect& col, SDL_Rect Tile[][60], int Mappi
                 //Mix_PlayChannel( -1, High, 0 );
                 int val = Mapping[row][column];
                 if (val == 4) {
-                    Mapping[row][column] = 9;
+                    Mapping[row][column] = 3;
                     Mix_PlayChannel(-1, potion_music, 0);
                     isSpdBuff = true;
                     isSpdBuff_forDraw = true;
                     buffTime.setTime();
                 }
                 else if (val == 5) {
-                    Mapping[row][column] = 10;
+                    Mapping[row][column] = 3;
                     Mix_PlayChannel(-1, potion_music, 0);
                     isJmpBuff = true;
                     isJmpBuff_forDraw = true;
                     buffTime.setTime();
                 } 
                 else if (val == 6) {
-                    Mapping[row][column] = 11;
+                    Mapping[row][column] = 3;
                     Mix_PlayChannel(-1, potion_music, 0);
                     isLag = true;
                     isLag_forDraw = true;
                 }
                 else if (val == 7) {
-                    Mapping[row][column] = 12;
+                    Mapping[row][column] = 3;
                     Mix_PlayChannel(-1, potion_music, 0);
                     godPot_draw = true;
                     isLag = false;
                 }
-                else if (val == 9) Mapping[row][column] = 4;
-                else if (val == 10) Mapping[row][column] = 5;
-                else if (val == 11) Mapping[row][column] = 6;
-                else if (val == 12) Mapping[row][column] = 7;
                 else if (xvel > 0)
                 {
                     if (onGround == true)
