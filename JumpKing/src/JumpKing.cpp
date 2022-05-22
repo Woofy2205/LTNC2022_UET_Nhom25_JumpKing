@@ -23,7 +23,7 @@ int main(int argc, char* args[]){
 
     game = new Game();
 
-    game->init("Jump King v2.0", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+    game->init("JumpKing_Group25", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, false);
 
     /// <summary>
     /// Main Game Loop Controller.
