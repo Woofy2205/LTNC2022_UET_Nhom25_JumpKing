@@ -200,6 +200,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     int menuCheck = createMenu(fontMenu);
     if (menuCheck == 0){
         isRunning = true;
+        startTime = SDL_GetTicks()/1000;
     } else if (menuCheck == 1){  
         isRunning = false;
     } else {
