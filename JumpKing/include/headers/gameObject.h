@@ -97,8 +97,6 @@ public:
     void CollideHorizontal(SDL_Rect& col, SDL_Rect Tile[][60], int Mapping[][60]);
     bool checkCollision2(SDL_Rect a, SDL_Rect b);
 
-    void CalculateAngle();
-
     int Getxspeed() { return xspeed; }
     int Getxvel() { return (int)xvel; }
     int Getyvel() { return (int)yvel; }
