@@ -416,6 +416,8 @@ void Game::clean()
     jmpPot = NULL;
     SDL_DestroyTexture(lagPot);
     lagPot = NULL;
+    SDL_DestroyTexture(godPot);
+    godPot = NULL;
     player->ObjectClose();
     player = NULL;
     mapper->CloseMap();
