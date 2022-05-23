@@ -578,7 +578,9 @@ void GameObject::ObjectClose()
     SDL_DestroyTexture(objTextureRight);
     SDL_DestroyTexture(objTextureLeft);
     Mix_FreeChunk(High);
+    Mix_FreeChunk(potion_music);
     objTextureRight = NULL;
     objTextureLeft = NULL;
+    potion_music = NULL;
     High = NULL;
 }
