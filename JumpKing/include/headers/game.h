@@ -21,7 +21,6 @@ static const int LEVEL_HEIGHT = 3840;
 class Game
 {
 private:
-    int count = 0;
     bool isRunning;
     bool win;
     bool isRetrying;
