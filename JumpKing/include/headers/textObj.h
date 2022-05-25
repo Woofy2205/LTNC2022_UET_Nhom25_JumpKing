@@ -9,6 +9,7 @@
 
 using namespace std;
 
+// enum to set the colors 
 enum textColors{
 	white = 0,
 	black = 1,
@@ -21,8 +22,11 @@ enum textColors{
 class textObj
 {
 public:
+	// constructor and destructor
 	textObj();
 	~textObj();
+
+	// text related function to draw, erase and stuffs
 	bool loadFromRenderedText(TTF_Font* font, SDL_Renderer* screen);
 	void free();
 	void renderText(SDL_Renderer* screen, int x, int y,
@@ -31,9 +35,12 @@ public:
 	void setText(const string& text) { strVal = text; }
 	void setTextColor(const int& color);
 private:
+	// variables
 	string strVal;
 	SDL_Color textColor;
 	SDL_Texture* mTexture;
+
+	//text width and height
 	int mWidth;
 	int mHeight;
 };

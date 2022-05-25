@@ -32,6 +32,7 @@ int main(int argc, char* args[]){
     {
         if (game->winning() == false && game->retrying() == true)
         {
+            //start frame time that SDL initialized
             frameStart = SDL_GetTicks();
 
             game->handleEvents();
@@ -39,7 +40,7 @@ int main(int argc, char* args[]){
             game->render();
 
             frameTime = SDL_GetTicks() - frameStart;
-
+            
             if (frameDelay > frameTime)
             {
                 SDL_Delay(frameDelay - frameTime);

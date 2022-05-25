@@ -1,13 +1,14 @@
-#include "Game.h"
+#include "game.h"
 #include "texture.h"
-#include "GameObject.h"
-#include "Map.h"
+#include "gameObject.h"
+#include "map.h"
 #include "textObj.h"
 
 
 
 using namespace std;
 
+/// texture type
 SDL_Texture* imgStart = NULL;
 SDL_Texture* background = NULL;
 SDL_Texture* foreground = NULL;
@@ -18,11 +19,13 @@ SDL_Texture* spdPot = NULL;
 SDL_Texture* jmpPot = NULL;
 SDL_Texture* lagPot = NULL;
 SDL_Texture* godPot = NULL; // erase lag effect
+
+/// mixer and ttf type
 Mix_Music* Music = NULL;
 TTF_Font* font = NULL;
 TTF_Font* fontMenu = NULL;
 
-
+/// rect to put potion and babe
 SDL_Rect spdSrcRect = { 0,0,32,32 };
 SDL_Rect spdRect = { 896,3456,32,32 };
 SDL_Rect spdDestRect = { 896,3456,32,32 };
@@ -45,6 +48,7 @@ SDL_Rect babeDestRect = { 592,112,48,48 };
 
 Uint32 score, hScore, timeVal, startTime;
 
+/// main part of the game including background, player, time and map.
 SDL_Rect BgSrc = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT }, BgDest = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
 GameObject* player;
 textObj timeGame;
@@ -53,20 +57,28 @@ Map* mapper;
 
 
 SDL_Renderer* Game::renderer = nullptr;
-
+/// <summary>
+/// constructor and destructor
+/// </summary>
 Game::Game()
 {}
 Game::~Game()
 {}
 
+/// <summary>
+/// menu creating function with the integer return type that can lead to others menu 
+/// </summary>
 int Game::createMenu(TTF_Font* font){
+    /// load menu image
     imgStart = texture::LoadTexture("image/main_image/main_menu.png");
-    // texture::Draw(imgStart, player->Camera, BgDest);
+    /// texture::Draw(imgStart, player->Camera, BgDest);
     if (imgStart == NULL) return 1;
     texture::Draw(imgStart, player->Camera, BgDest);
-    const int numMenu = 2;
-    // 0 = start, 1 = keys info, 2 = exit;
 
+    /// 0 = start, 1 = exit;
+    const int numMenu = 2;
+
+    /// rect to put the text of the menu in, and also helps check the selected or not
     SDL_Rect menuRect[numMenu];
 
     menuRect[0].x = 550; 
@@ -79,7 +91,7 @@ int Game::createMenu(TTF_Font* font){
     menuRect[1].w = 960;
     menuRect[1].h = 32;
 
-
+    /// contain the text, gonna be the src rect for render purpose
     textObj textMenu[numMenu];
 
     textMenu[0].setText("New Game");
@@ -88,12 +100,15 @@ int Game::createMenu(TTF_Font* font){
     textMenu[1].setText("Exit");
     textMenu[1].setTextColor(white);
 
+    /// bool array that check whether the text is selected or not
     bool chosen[numMenu] = {false, false};
 
+    /// menu event handing, turn red when the mouse point to the text
     SDL_Event mouseEvent;
     while(true){
         texture::Draw(imgStart, player->Camera, BgDest);
         for (int i=0; i < numMenu; i++){
+            /// render the text
             textMenu[i].loadFromRenderedText(font, renderer);
             textMenu[i].renderText(renderer, menuRect[i].x, menuRect[i].y);
         }
@@ -136,9 +151,14 @@ int Game::createMenu(TTF_Font* font){
 
     return 0;
 }
+
+/// <summary>
+/// initialize the game all of the stuffs
+/// </summary>
 void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
     int flag = 0;
+    /// lazyfoo SDL code 
     if (fullscreen)
     {
         flag = SDL_WINDOW_FULLSCREEN;
@@ -158,9 +178,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
             cout << "Renderer created!" << endl;
         }
+
+        /// time font (smaller size)
         if (TTF_Init() == 0) {
             font = TTF_OpenFont("font/font2.ttf", 24);
         }
+
+        /// menu font (just bigger size)
         if(TTF_Init() == 0){
             fontMenu = TTF_OpenFont("font/font2.ttf", 32);
         }
@@ -169,13 +193,16 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     else {
         // isRunning = false;
     }
+    /// mixer for sfx of the game
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-
+    /// win sound
     Music = Mix_LoadMUS("sound/win.wav");
 
+    /// set the game status
     win = false;
     isRetrying = true;
 
+    /// load the texture from the source folder image
     background = texture::LoadTexture("image/main_image/background.png");
     foreground = texture::LoadTexture("image/main_image/foreground.png");
     spdPot = texture::LoadTexture("image/speed_pot.png");
@@ -186,17 +213,20 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     victory = texture::LoadTexture("image/victory.png");
     bestScore = texture::LoadTexture("image/highScore.png");
 
-    //Icon loading.
+    /// icon loading.
     string icoName = "image/icon.bmp";
     SDL_Surface* loadedSurface = SDL_LoadBMP(icoName.c_str());
     SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 255, 0, 255));
     SDL_SetWindowIcon(window, loadedSurface);
     SDL_FreeSurface(loadedSurface);
 
+    /// create player, map and put startTime to 0 for later use
     player = new GameObject(64, LEVEL_HEIGHT - 100);
     mapper = new Map();
     startTime = 0;
 
+
+    /// create menu by the createMenu function and respond based on the result of the function
     int menuCheck = createMenu(fontMenu);
     if (menuCheck == 0){
         isRunning = true;
@@ -208,6 +238,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     }
 }
 
+/// <summary>
+/// events handling,update and render function that can draw and update the game based on the input events.
+/// </summary>
 void Game::handleEvents()
 {
     SDL_Event event;
@@ -309,7 +342,7 @@ void Game::update()
             Mix_PlayMusic(Music, -1);
         }
 
-        //Saving best score to file
+        /// Saving best score to file
         score = timeVal;
         cout << score;
         ifstream input("bestScore.txt");
@@ -338,7 +371,7 @@ void Game::render()
     if(player->isLag_forDraw == false) texture::Draw(lagPot, lagSrcRect, lagDestRect);
     if(player->godPot_draw == false) texture::Draw(godPot, godSrcRect, godDestRect);
     
-    //Time counting
+    //Time counting and render on the screen
     string strTime = "TIME: ";
     timeVal = SDL_GetTicks() / 1000 - startTime;
     string timeRes = to_string(timeVal);
@@ -352,7 +385,7 @@ void Game::render()
 }
 
 /// <summary>
-/// Retry the Current Level Option?
+/// Retry the whole game
 /// </summary>
 void Game::retry()
 {
@@ -392,6 +425,9 @@ void Game::retry()
     }
 }
 
+/// <summary>
+/// destroy, delete the pointers
+/// </summary>
 void Game::clean()
 {
     SDL_DestroyWindow(window);
@@ -432,21 +468,24 @@ void Game::clean()
     cout << "Game cleaned" << endl;
 }
 
+/// menu's function checking whether the option is selected or not
 bool Game::checkSelected(const int& x, const int& y, const SDL_Rect& rect)
 {
     if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h) return true;
     return false;
 }
+
+/// <summary>
+/// getters of the bool to run, win or retry the game
+/// </summary>
 bool Game::running()
 {
     return isRunning;
 }
-
 bool Game::winning()
 {
     return win;
 }
-
 bool Game::retrying()
 {
     return isRetrying;

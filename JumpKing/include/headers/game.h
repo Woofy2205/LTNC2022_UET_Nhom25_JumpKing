@@ -7,6 +7,9 @@
 #include "textObj.h"
 #include <fstream>
 
+/// <summary>
+/// game stat, including screen, tile and level
+/// </summary>
 static const int SCREEN_WIDTH = 960;
 static const int SCREEN_HEIGHT = 720;
 
@@ -21,12 +24,14 @@ static const int LEVEL_HEIGHT = 3840;
 class Game
 {
 private:
+    /// private variables that check the status of the game
     bool isRunning;
     bool win;
     bool isRetrying;
     SDL_Window* window = NULL;
 
 public:
+    /// constructor and destructor
     Game();
     ~Game();
 
@@ -44,7 +49,7 @@ public:
     bool winning(); 
     bool retrying(); 
     
-
+    /// renderer that draw the game
     static SDL_Renderer* renderer;
 
 };

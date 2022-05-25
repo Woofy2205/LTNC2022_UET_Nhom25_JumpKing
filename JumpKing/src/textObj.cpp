@@ -1,5 +1,6 @@
 #include "textObj.h"
 
+// constructor, color white and the pos = 0
 textObj::textObj()
 {
 	mTexture = NULL;
@@ -10,13 +11,13 @@ textObj::textObj()
 	textColor.b = 255;
 }
 
+// destructor
 textObj::~textObj()
 {
 	free();
 }
 
-
-
+// load rendered text solid to a texture and return false if the loading was not going well
 bool textObj::loadFromRenderedText(TTF_Font* font, SDL_Renderer* screen)
 {
 
@@ -33,6 +34,7 @@ bool textObj::loadFromRenderedText(TTF_Font* font, SDL_Renderer* screen)
 	return mTexture != NULL;
 }
 
+// delete the pointer and reset all variables
 void textObj::free()
 {
 	if (mTexture != NULL)
@@ -44,7 +46,7 @@ void textObj::free()
 	}
 }
 
-
+// render a text to current rendering
 void textObj::renderText(SDL_Renderer* screen, int x, int y,
 	SDL_Rect* clip, double angle, SDL_Point* center,
 	SDL_RendererFlip flip) {
@@ -56,6 +58,7 @@ void textObj::renderText(SDL_Renderer* screen, int x, int y,
 	SDL_RenderCopyEx(screen, mTexture, clip, &renderQuad, angle, center, flip);
 }
 
+// set rgb color
 void textObj::setTextColor(const int& color){
 	switch (color){
 		case white:

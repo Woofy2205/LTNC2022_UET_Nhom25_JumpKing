@@ -279,7 +279,7 @@ Map::Map()
 
 /// <summary>
 /// Load Map based on given resolutions via "blocks" quantities.
-/// 32x32 pixels for each "block" loaded.
+/// 16x16 pixels for each "block" loaded.
 /// </summary>
 void Map::LoadMap(int arr[240][60]) {
     for (int row = 0; row < 240; row++) {
@@ -387,6 +387,7 @@ void Map::DrawMap(SDL_Rect Camera) {
 
 }
 
+/// destructor, free the texture
 void Map::CloseMap()
 {
     SDL_DestroyTexture(dirt);

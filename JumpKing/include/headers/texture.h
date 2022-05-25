@@ -5,6 +5,7 @@
 #include "Header.h"
 #include "Game.h"
 
+// used to handle the texture that create the game
 class texture
 {
 public:

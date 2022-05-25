@@ -5,39 +5,13 @@
 
 SDL_Rect babeRect2 = { 592,112,48,48 };
 //SDL_Rect babeRect2 = { 896,3456,32,32 };
-/// <summary>
-/// Collision Check Boolean.
-/// *literally, coordinations.
-/// </summary>
-bool GameObject::checkCollision2(SDL_Rect a, SDL_Rect b)
-{
-    int leftA, leftB;
-    int rightA, rightB;
-    int topA, topB;
-    int bottomA, bottomB;
-
-    leftA = a.x;
-    rightA = a.x + a.w;
-    topA = a.y;
-    bottomA = a.y + a.h;
-
-    leftB = b.x;
-    rightB = b.x + b.w;
-    topB = b.y;
-    bottomB = b.y + b.h;
-
-    if (bottomA <= topB || topA >= bottomB || rightA <= leftB || leftA >= rightB) {
-        return false;
-    }
-    return true;
-}
 
 /// <summary>
 /// Setting Animation Clips.
 /// </summary>
 void GameObject::SetClips(){
     /// <summary>
-    /// Right.
+    /// Right Animation.
     /// </summary>
     RunningRight[0].x = 3;
     RunningRight[0].y = 9;
@@ -64,7 +38,7 @@ void GameObject::SetClips(){
     RunningRight[4].w = 32;
     RunningRight[4].h = 32;
     /// <summary>
-    /// Left.
+    /// Left Animation.
     /// </summary>
     RunningLeft[0].x = 190;
     RunningLeft[0].y = 9;
@@ -94,6 +68,7 @@ void GameObject::SetClips(){
 }
 
 
+/// constructor
 GameObject::GameObject(int x, int y){
     //Loading Texture Data.
     objTextureRight = texture::LoadTexture("image/king_right_2.png");
@@ -105,6 +80,7 @@ GameObject::GameObject(int x, int y){
     xpos = x;
     ypos = y;
 
+    //buff bool (buffed or not)
     isWin = false;
     isSpdBuff = false;
     isSpdBuff_forDraw = false;
@@ -113,15 +89,19 @@ GameObject::GameObject(int x, int y){
     isLag = false;
     isLag_forDraw = false;
     godPot_draw = false;
+
+    //x and y velocity
     xvel = 0;
     yvel = 0;
 
+    //start and jump time variable
     startTime = 0;
     jumpTime = 0;
 
     frame = 0;
     SetClips();
 
+    //status begin
     status = standing;
     onGround = true;
 
@@ -150,6 +130,7 @@ GameObject::GameObject(int x, int y){
 /// Returning to initial state.
 /// </summary>
 void GameObject::Reset(){
+    // the position of the main character
     xpos = 64;
     ypos = LEVEL_HEIGHT - 100;
 
@@ -179,6 +160,38 @@ void GameObject::Reset(){
     isLag_forDraw = false;
     godPot_draw = false;
 }
+
+
+/// <summary>
+/// Collision Check Boolean.
+/// *literally, coordinations.
+/// </summary>
+bool GameObject::checkCollision2(SDL_Rect a, SDL_Rect b)
+{
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
+
+    // A and B 4 peak of the rect
+    leftA = a.x;
+    rightA = a.x + a.w;
+    topA = a.y;
+    bottomA = a.y + a.h;
+
+    leftB = b.x;
+    rightB = b.x + b.w;
+    topB = b.y;
+    bottomB = b.y + b.h;
+
+    // check if 2 rect touch the other
+    if (bottomA <= topB || topA >= bottomB || rightA <= leftB || leftA >= rightB) {
+        return false;
+    }
+
+    return true;
+}
+
 
 /// <summary>
 /// 2 Functions below are for detecting if Character is hitting tiles or not.
@@ -237,8 +250,6 @@ void GameObject::CollideVertical(SDL_Rect& col, SDL_Rect Tile[][60], int Mapping
         }
     }
 }
-
-
 void GameObject::CollideHorizontal(SDL_Rect& col, SDL_Rect Tile[][60], int Mapping[][60])
 {
     for (int row = 0; row < 240; row++)
@@ -341,14 +352,13 @@ void GameObject::RunRightBuff(){
 }
 
 /// <summary>
-/// Put JK into Charging state, immobiled and then Jump.
+/// Put JK into Charging state, immobilized and then Jump.
 /// </summary>
 void GameObject::PrepareJump(){
     startTime = SDL_GetTicks();
     status = charging;
     xvel = 0;
 }
-
 void GameObject::Jump(){
     jumpTime = SDL_GetTicks() - startTime;
     status = jumping;
@@ -361,6 +371,7 @@ void GameObject::Jump(){
     startTime = 0;
     jumpTime = 0;
 }
+
 void GameObject::JumpBuff()
 {
     jumpTime = (SDL_GetTicks() - startTime);
@@ -468,12 +479,14 @@ void GameObject::JumpRightBuff()
     jumpTime = 0;
 }
 
+/// <summary>
+/// Stop run, change animation
+/// </summary>
 void GameObject::StopRunRight()
 {
     xvel = 0;
     status = standing;
 }
-
 void GameObject::StopRunLeft()
 {
     xvel = 0;
@@ -538,7 +551,7 @@ void GameObject::Update(SDL_Rect Tile[][60], int Mapping[][60])
     if (checkCollision2(collider, babeRect2) == true) isWin = true;
     
 }
-///As being continously print on the terminal, vertical distance will be updated and followed by a boolean isWin.
+///As being continuously print on the terminal, vertical distance will be updated and followed by a boolean isWin.
 
 /// <summary>
 /// Rendering Animations.
